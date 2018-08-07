@@ -122,6 +122,8 @@ func getCount(tp, user, repo string) (string, error) {
 		tp = "openIssues"
 	} else if tp == "open-pull-requests" {
 		tp = "pullRequests"
+	} else if tp == "stars" {
+		tp = "stargazers"
 	}
 	stars := gjson.Get(string(resp), fmt.Sprintf("data.repository.%s.totalCount", tp)).Float()
 	return utils.StringOrDefault(humanize.SI(stars, ""), "0"), nil
@@ -143,11 +145,7 @@ func GithubApi(args ...string) BadgeInput {
 
 	switch topic {
 	case "stars", "forks", "watchers", "issues", "open-issues", "open-pull-requests":
-		tp := topic
-		if tp == "stars" {
-			tp = "stargazers"
-		}
-		resp, err := getCount(tp, user, repo)
+		resp, err := getCount(topic, user, repo)
 		if err != nil {
 			return defaultErrorResp
 		}
