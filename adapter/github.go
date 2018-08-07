@@ -13,7 +13,7 @@ import (
 var GITHUB_TOKEN = os.Getenv("GITHUB_TOKEN")
 
 // GITHUB_TOPICS is github api support topic
-var GITHUB_TOPICS = []string{"stars", "forks", "watchers", "release", "tag", "issues", "open-issues"}
+var GITHUB_TOPICS = []string{"stars", "forks", "watchers", "release", "tag", "issues", "open-issues", "license"}
 
 var defaultGithubErrorResp = BadgeInput{
 	Subject: "github",
@@ -34,7 +34,7 @@ func graphqlQuery(q string) ([]byte, error) {
 	return utils.Post("https://api.github.com/graphql", query, header)
 }
 
-func getTag(tp, user, repo string) (string, error) {
+func getInfo(tp, user, repo string) (string, error) {
 	resp, err := graphqlQuery(fmt.Sprintf(`
     query {
       repository(owner:"%s", name:"%s") {
@@ -53,6 +53,10 @@ func getTag(tp, user, repo string) (string, error) {
             }
           }
         }
+
+		licenseInfo {
+		  name
+		}
       }
     }
 `, user, repo))
@@ -73,6 +77,8 @@ func getTag(tp, user, repo string) (string, error) {
 		tag = gjson.Get(string(resp), fmt.Sprintf("data.repository.%s.%s.0.tag.name", "releases", "nodes")).String()
 	case "tag":
 		tag = gjson.Get(string(resp), fmt.Sprintf("data.repository.%s.%s.0.tag.name", "tags", "edges")).String()
+	case "license":
+		tag = gjson.Get(string(resp), "data.repository.licenseInfo.name").String()
 	}
 
 	return utils.StringOrDefault(tag, "unknown"), nil
@@ -145,8 +151,8 @@ func GithubApi(args ...string) BadgeInput {
 			Status:  resp,
 			Color:   "blue",
 		}
-	case "release", "tag":
-		resp, err := getTag(topic, user, repo)
+	case "release", "tag", "license":
+		resp, err := getInfo(topic, user, repo)
 		if err != nil {
 			return defaultErrorResp
 		}
