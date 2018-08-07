@@ -31,7 +31,7 @@ func CircleciApi(args ...string) BadgeInput {
 	if err != nil {
 		return ErrorInput
 	}
-	status := gjson.Get(string(resp), "1.status").String()
+	status := gjson.Get(string(resp), "0.status").String()
 	return BadgeInput{
 		Subject: "circleci",
 		Status:  utils.StringOrDefault(strings.Replace(status, "_", " ", -1), "not found"),
