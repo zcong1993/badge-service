@@ -11,6 +11,7 @@ var (
 	NO_KEY_TO_UPDATE = errors.New("key not exists or expired, set it first. ")
 )
 
+// ExipreMap is struct of expire map
 type ExipreMap struct {
 	store      map[string]Value
 	GcInterval time.Duration
@@ -19,11 +20,13 @@ type ExipreMap struct {
 	t          *time.Ticker
 }
 
+// Value is expire map value
 type Value struct {
 	Val       interface{}
 	expiredIn time.Time
 }
 
+// NewExpireMap is constructor of ExipreMap
 func NewExpireMap(interval time.Duration) *ExipreMap {
 	em := &ExipreMap{
 		store:      make(map[string]Value),
@@ -67,6 +70,7 @@ func isExpiredValue(val Value) bool {
 	return false
 }
 
+// Gc is gc function
 func (em *ExipreMap) Gc() {
 	em.mu.Lock()
 	defer em.mu.Unlock()
@@ -79,6 +83,7 @@ func (em *ExipreMap) Gc() {
 	em.inGc = false
 }
 
+// Get implement map get method
 func (em *ExipreMap) Get(key string) interface{} {
 	em.mu.RLock()
 	defer em.mu.RUnlock()
@@ -92,6 +97,7 @@ func (em *ExipreMap) Get(key string) interface{} {
 	return v.Val
 }
 
+// Set implement map set function but with expire
 func (em *ExipreMap) Set(k string, val interface{}, expire time.Duration) {
 	em.mu.Lock()
 	defer em.mu.Unlock()
@@ -101,6 +107,7 @@ func (em *ExipreMap) Set(k string, val interface{}, expire time.Duration) {
 	}
 }
 
+// Set implement map set function but with expiredIn
 func (em *ExipreMap) SetExpiredIn(k string, val interface{}, expiredIn time.Time) {
 	em.mu.Lock()
 	defer em.mu.Unlock()
@@ -110,6 +117,7 @@ func (em *ExipreMap) SetExpiredIn(k string, val interface{}, expiredIn time.Time
 	}
 }
 
+// Size implement map size function
 func (em *ExipreMap) Size() int {
 	em.Gc()
 	em.mu.RLock()
@@ -117,6 +125,7 @@ func (em *ExipreMap) Size() int {
 	return len(em.store)
 }
 
+// ToMap return map with valid value
 func (em *ExipreMap) ToMap() map[string]interface{} {
 	em.Gc()
 	em.mu.RLock()
@@ -128,10 +137,12 @@ func (em *ExipreMap) ToMap() map[string]interface{} {
 	return res
 }
 
+// Has implement map has function
 func (em *ExipreMap) Has(k string) bool {
 	return !em.isExpired(k)
 }
 
+// Update update a item but not update expire time
 func (em *ExipreMap) Update(k string, newVal interface{}) error {
 	if !em.Has(k) {
 		return NO_KEY_TO_UPDATE
@@ -144,6 +155,7 @@ func (em *ExipreMap) Update(k string, newVal interface{}) error {
 	return nil
 }
 
+// CleanUp stop auto gc
 func (em *ExipreMap) CleanUp() {
 	if em.t != nil {
 		em.t.Stop()

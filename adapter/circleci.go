@@ -8,7 +8,17 @@ import (
 	"strings"
 )
 
-func CircleciApi(vcsType, username, project, branch string) BadgeInput {
+// CircleciApi is circleci api provider
+func CircleciApi(args ...string) BadgeInput {
+	if len(args) != 4 {
+		return ErrorInput
+	}
+
+	vcsType := args[0]
+	username := args[1]
+	project := args[2]
+	branch := args[3]
+
 	var b string
 	if branch == "" {
 		b = ""

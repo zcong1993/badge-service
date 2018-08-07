@@ -11,10 +11,17 @@ var client = &http.Client{
 	Timeout: time.Second * 6,
 }
 
-func Get(url string) ([]byte, error) {
+// Get is helper function for making get request
+func Get(url string, externalHeader ...map[string]string) ([]byte, error) {
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		return nil, err
+	}
+
+	for _, v := range externalHeader {
+		for k := range v {
+			req.Header.Set(k, v[k])
+		}
 	}
 
 	req.Header.Set("Accept", "application/json")

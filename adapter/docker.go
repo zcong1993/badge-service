@@ -13,9 +13,19 @@ var defaultErrorResp = BadgeInput{
 	Color:   "grey",
 }
 
+// VALID_TOPICS is valid topic docker api support
 var VALID_TOPICS = []string{"stars", "pulls"}
 
-func DockerApi(topic, namespace, name string) BadgeInput {
+// DockerApi is docker hub api provider
+func DockerApi(args ...string) BadgeInput {
+	if len(args) != 3 {
+		return ErrorInput
+	}
+
+	topic := args[0]
+	namespace := args[1]
+	name := args[2]
+
 	if !utils.IsOneOf(VALID_TOPICS, topic) {
 		return defaultErrorResp
 	}
