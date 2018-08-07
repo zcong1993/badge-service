@@ -36,6 +36,7 @@ func MakeController(apiFunc adapter.ApiFunc, l int, args ...string) func(c *gin.
 			style = badge.FLAT
 		}
 		res.Style = style
+		res.Subject = strings.Replace(res.Subject, "-", " ", -1)
 		svg, err := badge.Badgen(badge.Input(res))
 		if err != nil {
 			c.JSON(http.StatusOK, map[string]interface{}{"ok": false})

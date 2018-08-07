@@ -13,7 +13,7 @@ import (
 var GITHUB_TOKEN = os.Getenv("GITHUB_TOKEN")
 
 // GITHUB_TOPICS is github api support topic
-var GITHUB_TOPICS = []string{"stars", "forks", "watchers", "release", "tag", "issues", "open-issues", "license"}
+var GITHUB_TOPICS = []string{"stars", "forks", "watchers", "release", "tag", "issues", "open-issues", "license", "open-pull-requests"}
 
 var defaultGithubErrorResp = BadgeInput{
 	Subject: "github",
@@ -103,6 +103,9 @@ func getCount(tp, user, repo string) (string, error) {
     	issues() {
           totalCount
 		}
+		pullRequests(states:OPEN) {
+          totalCount
+        }
       }
     }
 `, user, repo))
@@ -117,6 +120,8 @@ func getCount(tp, user, repo string) (string, error) {
 	}
 	if tp == "open-issues" {
 		tp = "openIssues"
+	} else if tp == "open-pull-requests" {
+		tp = "pullRequests"
 	}
 	stars := gjson.Get(string(resp), fmt.Sprintf("data.repository.%s.totalCount", tp)).Float()
 	return utils.StringOrDefault(humanize.SI(stars, ""), "0"), nil
@@ -137,7 +142,7 @@ func GithubApi(args ...string) BadgeInput {
 	}
 
 	switch topic {
-	case "stars", "forks", "watchers", "issues", "open-issues":
+	case "stars", "forks", "watchers", "issues", "open-issues", "open-pull-requests":
 		tp := topic
 		if tp == "stars" {
 			tp = "stargazers"
