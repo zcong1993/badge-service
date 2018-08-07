@@ -66,18 +66,16 @@ func getTag(tp, user, repo string) (string, error) {
 		return "0", errors.New(errs)
 	}
 
-	println(string(resp))
+	tag := "unknown"
 
 	switch tp {
 	case "release":
-		tag := gjson.Get(string(resp), fmt.Sprintf("data.repository.%s.%s.0.tag.name", "releases", "nodes")).String()
-		return utils.StringOrDefault(tag, "unknown"), nil
+		tag = gjson.Get(string(resp), fmt.Sprintf("data.repository.%s.%s.0.tag.name", "releases", "nodes")).String()
 	case "tag":
-		tag := gjson.Get(string(resp), fmt.Sprintf("data.repository.%s.%s.0.tag.name", "tags", "edges")).String()
-		return utils.StringOrDefault(tag, "unknown"), nil
-	default:
-		return "unknown", nil
+		tag = gjson.Get(string(resp), fmt.Sprintf("data.repository.%s.%s.0.tag.name", "tags", "edges")).String()
 	}
+
+	return utils.StringOrDefault(tag, "unknown"), nil
 }
 
 func getCount(tp, user, repo string) (string, error) {
