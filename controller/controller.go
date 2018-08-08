@@ -15,7 +15,7 @@ import (
 const DEFULT_CACHE_AGE = time.Second * 30
 
 // MakeController return a gin handler function
-func MakeController(apiFunc adapter.ApiFunc, l int, args ...string) func(c *gin.Context) {
+func MakeController(apiFunc adapter.ApiFunc, t string, l int, args ...string) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		queryStyle := c.Query("style")
 		var q []string
@@ -23,7 +23,7 @@ func MakeController(apiFunc adapter.ApiFunc, l int, args ...string) func(c *gin.
 			q = append(q, c.Param(arg))
 		}
 		q = append(q, utils.ParamsOrDefault(c.Param("rest"), l)...)
-		cacheKey := strings.Join(q, "-") + "-" + queryStyle
+		cacheKey := t + "-" + strings.Join(q, "-") + "-" + queryStyle
 		cacheResp := cache.GetString(cacheKey)
 		if cacheResp != "" {
 			println("hint cache")

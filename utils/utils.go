@@ -48,6 +48,9 @@ var VersionRexp = regexp.MustCompile(`(?i)\b(alpha|beta|canary|rc)`)
 
 // VersionColor return different colors by version
 func VersionColor(v string) string {
+	if v == "" {
+		return "grey"
+	}
 	if VersionRexp.MatchString(v) {
 		return "cyan"
 	}

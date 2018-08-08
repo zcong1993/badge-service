@@ -11,12 +11,13 @@ func main() {
 	r := gin.Default()
 	r.Use(cors.Default())
 
-	r.GET("/circleci/*rest", controller.MakeController(adapter.CircleciApi, 4))
-	r.GET("/docker/:topic/*rest", controller.MakeController(adapter.DockerApi, 2, "topic"))
-	r.GET("/github/:topic/*rest", controller.MakeController(adapter.GithubApi, 2, "topic"))
-	r.GET("/travis/*rest", controller.MakeController(adapter.TravisApi, 3))
-	r.GET("/npm/:topic/*rest", controller.MakeController(adapter.NpmApi, 3, "topic"))
-	r.GET("/homebrew/:topic/*rest", controller.MakeController(adapter.HomebrewApi, 1, "topic"))
+	r.GET("/circleci/*rest", controller.MakeController(adapter.CircleciApi, "circleci", 4))
+	r.GET("/docker/:topic/*rest", controller.MakeController(adapter.DockerApi, "docker", 2, "topic"))
+	r.GET("/github/:topic/*rest", controller.MakeController(adapter.GithubApi, "github", 2, "topic"))
+	r.GET("/travis/*rest", controller.MakeController(adapter.TravisApi, "travis", 3))
+	r.GET("/npm/:topic/*rest", controller.MakeController(adapter.NpmApi, "npm", 3, "topic"))
+	r.GET("/homebrew/:topic/*rest", controller.MakeController(adapter.HomebrewApi, "homebrew", 1, "topic"))
+	r.GET("/pypi/:topic/*rest", controller.MakeController(adapter.PypiApi, "pypi", 1, "topic"))
 
 	r.Run()
 }
