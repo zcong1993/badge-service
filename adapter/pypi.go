@@ -35,7 +35,7 @@ func PypiApi(args ...string) BadgeInput {
 		v := gjson.Get(string(resp), "info.version").String()
 		return BadgeInput{
 			Subject: "pypi",
-			Status:  utils.StringOrDefault(v, "unknown"),
+			Status:  utils.NormalizeVersion(v),
 			Color:   utils.VersionColor(v),
 		}
 	}

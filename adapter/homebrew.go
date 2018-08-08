@@ -35,7 +35,7 @@ func HomebrewApi(args ...string) BadgeInput {
 		v := gjson.Get(string(resp), "versions.stable").String()
 		return BadgeInput{
 			Subject: "homebrew",
-			Status:  utils.StringOrDefault(v, "unknown"),
+			Status:  utils.NormalizeVersion(v),
 			Color:   utils.VersionColor(v),
 		}
 	}

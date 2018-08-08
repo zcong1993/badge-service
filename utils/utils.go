@@ -76,3 +76,13 @@ func CovColor(p float64) string {
 	}
 	return "green"
 }
+
+func NormalizeVersion(v string) string {
+	if v == "" {
+		return "unknown"
+	}
+	if strings.HasPrefix(v, "v") {
+		return v
+	}
+	return "v" + v
+}

@@ -27,8 +27,6 @@ func getPkg(topic string, args ...string) BadgeInput {
 		return ErrorInput
 	}
 
-	fmt.Printf("%s - %s\n", endpoint, string(resp))
-
 	switch topic {
 	case "version":
 		v := gjson.Get(string(resp), "version").String()
@@ -38,7 +36,7 @@ func getPkg(topic string, args ...string) BadgeInput {
 		}
 		return BadgeInput{
 			Subject: sub,
-			Status:  v,
+			Status:  utils.NormalizeVersion(v),
 			Color:   utils.VersionColor(v),
 		}
 	case "license":
