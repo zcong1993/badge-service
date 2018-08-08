@@ -18,6 +18,7 @@ func main() {
 	r.GET("/npm/:topic/*rest", controller.MakeController(adapter.NpmApi, "npm", 3, "topic"))
 	r.GET("/homebrew/:topic/*rest", controller.MakeController(adapter.HomebrewApi, "homebrew", 1, "topic"))
 	r.GET("/pypi/:topic/*rest", controller.MakeController(adapter.PypiApi, "pypi", 1, "topic"))
+	r.GET("/codecov/*rest", controller.MakeController(adapter.CodecovApi, "codecov", 4, ))
 
 	r.Run()
 }

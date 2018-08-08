@@ -59,3 +59,20 @@ func VersionColor(v string) string {
 	}
 	return "blue"
 }
+
+// CovColor return different colors by coverage
+func CovColor(p float64) string {
+	if p < 35 {
+		return "red"
+	}
+	if p < 70 {
+		return "orange"
+	}
+	if p < 85 {
+		return "EEAA22"
+	}
+	if p < 90 {
+		return "99CC09"
+	}
+	return "green"
+}
