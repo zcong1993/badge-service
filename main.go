@@ -14,5 +14,7 @@ func main() {
 	r.GET("/circleci/*rest", controller.MakeController(adapter.CircleciApi, 4))
 	r.GET("/docker/:topic/*rest", controller.MakeController(adapter.DockerApi, 2, "topic"))
 	r.GET("/github/:topic/*rest", controller.MakeController(adapter.GithubApi, 2, "topic"))
+	r.GET("/travis/*rest", controller.MakeController(adapter.TravisApi, 3))
+
 	r.Run()
 }
