@@ -20,6 +20,7 @@ func main() {
 	r.GET("/pypi/:topic/*rest", controller.MakeController(adapter.PypiApi, "pypi", 1, "topic"))
 	r.GET("/codecov/*rest", controller.MakeController(adapter.CodecovApi, "codecov", 4))
 	r.GET("/appveyor/*rest", controller.MakeController(adapter.AppveyorApi, "appveyor", 3))
+	r.GET("/bundlephobia/:topic/*rest", controller.MakeController(adapter.BundlephobiaApi, "bundlephobia", 2, "topic"))
 
 	r.Run()
 }
