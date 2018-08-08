@@ -7,6 +7,7 @@ require (
 	github.com/golang/protobuf v1.1.0 // indirect
 	github.com/manucorporat/sse v0.0.0-20160126180136-ee05b128a739 // indirect
 	github.com/mattn/go-isatty v0.0.3 // indirect
+	github.com/rhymond/go-money v0.3.6
 	github.com/tidwall/gjson v1.1.3
 	github.com/tidwall/match v0.0.0-20171002075945-1731857f09b1 // indirect
 	github.com/zcong1993/badge v0.0.0-20180807101020-fc8a8c323e1a
