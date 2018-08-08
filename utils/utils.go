@@ -1,6 +1,9 @@
 package utils
 
-import "strings"
+import (
+	"regexp"
+	"strings"
+)
 
 // ParamsOrDefault ignore the extra params or add "" to make sure params lens equal
 func ParamsOrDefault(str string, n int) []string {
@@ -38,4 +41,18 @@ func IsOneOf(strArr []string, item string) bool {
 		}
 	}
 	return false
+}
+
+// VersionRexp is regexp for matching unstable version
+var VersionRexp = regexp.MustCompile(`(?i)\b(alpha|beta|canary|rc)`)
+
+// VersionColor return different colors by version
+func VersionColor(v string) string {
+	if VersionRexp.MatchString(v) {
+		return "cyan"
+	}
+	if strings.HasPrefix(v, "0.") {
+		return "orange"
+	}
+	return "blue"
 }
