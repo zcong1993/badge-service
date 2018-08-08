@@ -7,11 +7,7 @@ import (
 	"github.com/zcong1993/badge-service/utils"
 )
 
-var defaultErrorResp = BadgeInput{
-	Subject: "docker",
-	Status:  "unknown topic",
-	Color:   "grey",
-}
+var defaultErrorResp = makeUnknownTopicInput("docker")
 
 // VALID_TOPICS is valid topic docker api support
 var VALID_TOPICS = []string{"stars", "pulls"}

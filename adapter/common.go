@@ -14,3 +14,11 @@ var ErrorInput = BadgeInput{
 
 // ApiFunc is function type api provider should implement
 type ApiFunc func(args ...string) BadgeInput
+
+func makeUnknownTopicInput(subject string) BadgeInput {
+	return BadgeInput{
+		Subject: subject,
+		Status:  "unknown topic",
+		Color:   "grey",
+	}
+}
