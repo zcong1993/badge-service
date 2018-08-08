@@ -9,6 +9,7 @@ func GetString(key string) string {
 	if !ok {
 		return ""
 	}
+	println("hint cache " + key)
 	return str
 }
 

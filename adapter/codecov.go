@@ -2,9 +2,9 @@ package adapter
 
 import (
 	"fmt"
-	"github.com/zcong1993/badge-service/utils"
-	"github.com/tidwall/gjson"
 	"github.com/dustin/go-humanize"
+	"github.com/tidwall/gjson"
+	"github.com/zcong1993/badge-service/utils"
 )
 
 var (
