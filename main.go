@@ -21,6 +21,8 @@ func main() {
 	r.GET("/codecov/*rest", controller.MakeController(adapter.CodecovApi, "codecov", 4))
 	r.GET("/appveyor/*rest", controller.MakeController(adapter.AppveyorApi, "appveyor", 3))
 	r.GET("/bundlephobia/:topic/*rest", controller.MakeController(adapter.BundlephobiaApi, "bundlephobia", 2, "topic"))
+	r.GET("/chrome-web-store/:topic/*rest", controller.MakeController(adapter.ChromeWebStoreApi, "chrome-web-store", 1, "topic"))
+	r.GET("/crates/:topic/*rest", controller.MakeController(adapter.CratesApi, "crates", 1, "topic"))
 
 	r.Run()
 }
