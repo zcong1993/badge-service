@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"github.com/dustin/go-humanize"
 	"math"
 	"regexp"
 	"strconv"
@@ -118,4 +119,40 @@ func Star(rate float64, total int) string {
 	res += strings.Repeat("★", fullCount)
 	res += strings.Repeat("☆", halfCount)
 	return res
+}
+
+// Colors is color name to hex map
+var Colors = map[string]string{
+	"brightgreen": "44CC11",
+	"limegreen":   "97CA00",
+	"yellow":      "DFB317",
+	"orange":      "FE7D37",
+	"red":         "E05D44",
+	"blue":        "007EC6",
+	"pink":        "FF69B4",
+}
+
+// SizeColor return different color by file size
+func SizeColor(s uint64) string {
+	if s < humanize.KiByte*100 {
+		return Colors["brightgreen"]
+	}
+	if s < humanize.MiByte {
+		return Colors["limegreen"]
+	}
+	if s < humanize.MiByte*5 {
+		return Colors["blue"]
+	}
+	if s < humanize.MiByte*30 {
+		println("hahaha")
+		return Colors["yellow"]
+	}
+	if s < humanize.MiByte*100 {
+		return Colors["orange"]
+	}
+	if s < humanize.MiByte*500 {
+		return Colors["red"]
+	}
+
+	return Colors["pink"]
 }

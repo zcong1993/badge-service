@@ -26,8 +26,6 @@ func BundlephobiaApi(args ...string) BadgeInput {
 	project := args[1]
 	extra := args[2]
 
-	println(topic)
-
 	if !utils.IsOneOf(bundlephobiaTopics, topic) {
 		return bundlephobiaUnknownInput
 	}
@@ -46,9 +44,7 @@ func BundlephobiaApi(args ...string) BadgeInput {
 		return bundlephobiaUnknown
 	}
 
-	input := BadgeInput{
-		Color: "blue",
-	}
+	input := BadgeInput{}
 
 	size := gjson.Get(string(resp), "size").Uint()
 	gzip := gjson.Get(string(resp), "gzip").Uint()
@@ -56,11 +52,13 @@ func BundlephobiaApi(args ...string) BadgeInput {
 	switch topic {
 	case "size":
 		input.Subject = "size"
-		input.Status = humanize.Bytes(size)
+		input.Status = humanize.IBytes(size)
+		input.Color = utils.SizeColor(size)
 		break
 	case "gzip":
 		input.Subject = "gzip"
-		input.Status = humanize.Bytes(gzip)
+		input.Status = humanize.IBytes(gzip)
+		input.Color = utils.SizeColor(gzip)
 		break
 	default:
 		return ErrorInput
