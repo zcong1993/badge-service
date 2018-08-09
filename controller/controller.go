@@ -42,7 +42,9 @@ func MakeController(apiFunc adapter.ApiFunc, t string, l int, args ...string) fu
 			c.JSON(http.StatusOK, map[string]interface{}{"ok": false})
 			return
 		}
-		cache.SetCache(cacheKey, string(svg), DEFULT_CACHE_AGE)
+		if res.Status != "api error" {
+			cache.SetCache(cacheKey, string(svg), DEFULT_CACHE_AGE)
+		}
 		utils.ResponseSvgWithCache(c, string(svg))
 	}
 }

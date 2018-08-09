@@ -1,7 +1,9 @@
 package utils
 
 import (
+	"math"
 	"regexp"
+	"strconv"
 	"strings"
 )
 
@@ -77,6 +79,7 @@ func CovColor(p float64) string {
 	return "green"
 }
 
+// NormalizeVersion always make version start with 'v'
 func NormalizeVersion(v string) string {
 	if v == "" {
 		return "unknown"
@@ -85,4 +88,34 @@ func NormalizeVersion(v string) string {
 		return v
 	}
 	return "v" + v
+}
+
+// String2Float64 convert string to float64
+func String2Float64(s string) float64 {
+	f, err := strconv.ParseFloat(s, 64)
+	if err != nil {
+		return float64(0)
+	}
+	return f
+}
+
+// Star generate stars string by rate
+func Star(rate float64, total int) string {
+	res := ""
+	fullCount := 0
+	halfCount := 0
+	if rate >= float64(total) {
+		fullCount = total
+		halfCount = 0
+	} else {
+		fullCount = int(rate)
+		rest := rate - math.Floor(rate)
+		if rest >= 0.5 {
+			fullCount++
+		}
+		halfCount = total - fullCount
+	}
+	res += strings.Repeat("★", fullCount)
+	res += strings.Repeat("☆", halfCount)
+	return res
 }
