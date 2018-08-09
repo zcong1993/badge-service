@@ -25,6 +25,7 @@ func main() {
 	r.GET("/crates/:topic/*rest", controller.MakeController(adapter.CratesApi, "crates", 1, "topic"))
 	r.GET("/opencollective/:topic/*rest", controller.MakeController(adapter.OpencollectiveApi, "opencollective", 1, "topic"))
 	r.GET("/packagephobia/:topic/*rest", controller.MakeController(adapter.PackagephobiaApi, "packagephobia", 2, "topic"))
+	r.GET("/gem/:topic/*rest", controller.MakeController(adapter.GemApi, "gem", 2, "topic"))
 
 	r.Run()
 }
