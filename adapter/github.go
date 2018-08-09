@@ -21,6 +21,12 @@ var defaultGithubErrorResp = BadgeInput{
 	Color:   "grey",
 }
 
+func init() {
+	if GITHUB_TOKEN != "" {
+		println("load GITHUB_TOKEN !")
+	}
+}
+
 func graphqlQuery(q string) ([]byte, error) {
 	query := map[string]string{
 		"query": q,
