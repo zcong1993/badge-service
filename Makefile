@@ -3,8 +3,7 @@ generate:
 .PHONY: generate
 
 install:
-	@go get -u -v github.com/golang/dep/cmd/dep
-	@dep ensure
+	@vgo mod -vendor
 
 build: generate
 	@echo "====> Build telnetor cli"

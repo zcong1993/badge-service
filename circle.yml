@@ -12,7 +12,11 @@ jobs:
       - run:
           name: get deps
           command: |
+            go get -u -v golang.org/x/vgo
             make install
+      - run:
+          name: test
+          command: make test
       - run:
           name: build
           command: make build
