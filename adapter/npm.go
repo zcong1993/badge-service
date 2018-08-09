@@ -44,7 +44,7 @@ func getPkg(topic string, args ...string) BadgeInput {
 		return BadgeInput{
 			Subject: "license",
 			Status:  utils.StringOrDefault(v, "unknown"),
-			Color:   "blue",
+			Color:   utils.LicenseColor(v),
 		}
 	}
 	return ErrorInput

@@ -5,6 +5,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/zcong1993/badge-service/adapter"
 	"github.com/zcong1993/badge-service/controller"
+	"github.com/zcong1993/badge-service/utils"
+	"os"
 )
 
 func main() {
@@ -27,5 +29,5 @@ func main() {
 	r.GET("/packagephobia/:topic/*rest", controller.MakeController(adapter.PackagephobiaApi, "packagephobia", 2, "topic"))
 	r.GET("/gem/:topic/*rest", controller.MakeController(adapter.GemApi, "gem", 2, "topic"))
 
-	r.Run()
+	r.Run(utils.StringOrDefault(os.Getenv("PORT"), ":8080"))
 }

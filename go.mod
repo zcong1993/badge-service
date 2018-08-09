@@ -11,7 +11,7 @@ require (
 	github.com/mattn/go-isatty v0.0.3 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rhymond/go-money v0.3.6
-	github.com/stretchr/testify v1.2.2 // indirect
+	github.com/stretchr/testify v1.2.2
 	github.com/tidwall/gjson v1.1.3
 	github.com/tidwall/match v0.0.0-20171002075945-1731857f09b1 // indirect
 	github.com/zcong1993/badge v0.0.0-20180809063705-193e56291d40

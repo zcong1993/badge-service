@@ -156,3 +156,51 @@ func SizeColor(s uint64) string {
 
 	return Colors["pink"]
 }
+
+var licenseColorsMap = map[string][]string{
+	"green": {
+		"AFL-3.0",
+		"Apache-2.0",
+		"Artistic-2.0",
+		"BSD-2-Clause",
+		"BSD-3-Clause",
+		"BSD-3-Clause-Clear",
+		"BSL-1.0",
+		"CC-BY-4.0",
+		"ECL-2.0",
+		"ISC",
+		"MIT",
+		"MS-PL",
+		"NCSA",
+		"PostgreSQL",
+		"Zlib",
+	},
+	"orange": {
+		"AGPL-3.0",
+		"CC-BY-SA-4.0",
+		"EPL-1.0",
+		"EUPL-1.1",
+		"GPL-2.0",
+		"GPL-3.0",
+		"LGPL-2.1",
+		"LGPL-3.0",
+		"LPPL-1.3c",
+		"MPL-2.0",
+		"MS-RL",
+		"OFL-1.1",
+		"OSL-3.0",
+	},
+	"7cd958": {"CC0-1.0", "Unlicense", "WTFPL"},
+}
+
+// LicenseColor return different color by license type
+func LicenseColor(l string) string {
+	for k, v := range licenseColorsMap {
+		for _, vv := range v {
+			if strings.Contains(l, vv) {
+				return k
+			}
+		}
+	}
+	return "grey"
+}
