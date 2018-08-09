@@ -4,6 +4,7 @@ generate:
 
 install:
 	@go get ./...
+	@go get github.com/stretchr/testify/assert
 
 build: generate
 	@echo "====> Build telnetor cli"
