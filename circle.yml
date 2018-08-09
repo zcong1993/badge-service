@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       # CircleCI Go images available at: https://hub.docker.com/r/circleci/golang/
-      - image: circleci/golang:1.10
+      - image: circleci/golang:1.11
 
     working_directory: /go/src/github.com/zcong1993/badge-service
 
@@ -12,7 +12,7 @@ jobs:
       - run:
           name: get deps
           command: |
-            go get -u -v golang.org/x/vgo
+            go get golang.org/x/vgo
             make install
       - run:
           name: test
