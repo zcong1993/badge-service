@@ -3,7 +3,7 @@ generate:
 .PHONY: generate
 
 install:
-	@vgo install
+	@go get ./...
 
 build: generate
 	@echo "====> Build telnetor cli"
