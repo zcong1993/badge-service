@@ -3,7 +3,7 @@ generate:
 .PHONY: generate
 
 install:
-	@vgo mod vendor
+	@vgo install
 
 build: generate
 	@echo "====> Build telnetor cli"
