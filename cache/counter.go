@@ -3,7 +3,7 @@ package cache
 import "github.com/zcong1993/cache/lru/counter"
 
 var (
-	store       = counter.NewCounter(1000)
+	store = counter.NewCounter(1000)
 	// MaxParallel is max requests count for the same url
 	MaxParallel = int64(5)
 )
