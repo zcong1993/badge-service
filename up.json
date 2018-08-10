@@ -1,0 +1,12 @@
+{
+  "name": "badge-service",
+  "profile": "cong",
+  "regions": ["ap-southeast-1"],
+  "hooks": {
+    "build": "GOOS=linux GOARCH=amd64 go build -o server .",
+    "clean": "rm server"
+  },
+  "environment": {
+    "GIN_MODE": "release"
+  }
+}

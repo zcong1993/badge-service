@@ -29,5 +29,5 @@ func main() {
 	r.GET("/packagephobia/:topic/*rest", controller.MakeController(adapter.PackagephobiaApi, "packagephobia", 2, "topic"))
 	r.GET("/gem/:topic/*rest", controller.MakeController(adapter.GemApi, "gem", 2, "topic"))
 
-	r.Run(utils.StringOrDefault(os.Getenv("PORT"), ":8080"))
+	r.Run(utils.StringOrDefault(":" + os.Getenv("PORT"), ":8080"))
 }
