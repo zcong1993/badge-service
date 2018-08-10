@@ -1,18 +1,23 @@
 package cache
 
-import "time"
+import (
+	"github.com/zcong1993/cache/expire"
+	"time"
+)
 
-var em = NewExpireMap(time.Minute)
+var em = expire.NewStringExpireMap(time.Minute)
 
+// GetString get string cache by key
 func GetString(key string) string {
-	str, ok := em.Get(key).(string)
-	if !ok {
+	str := em.Get(key)
+	if str == nil {
 		return ""
 	}
 	println("hint cache " + key)
-	return str
+	return *str
 }
 
-func SetCache(k string, val interface{}, expire time.Duration) {
+// SetCache add cache key value
+func SetCache(k string, val string, expire time.Duration) {
 	em.Set(k, val, expire)
 }
