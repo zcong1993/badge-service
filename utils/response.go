@@ -19,5 +19,7 @@ func ResponseSvgWithCache(c *gin.Context, svg string) {
 	c.Header("Content-Type", "image/svg+xml;charset=utf-8")
 	c.Header("Cache-Control", "no-store, no-cache, must-revalidate")
 	c.Header("ETag", md5Hash(svg))
+	// Last-Modified: Wed, 21 Oct 2015 07:28:00 GMT
+	c.Header("Last-Modified", "Wed, 21 Oct 2015 07:28:00 GMT")
 	c.String(http.StatusOK, svg)
 }
