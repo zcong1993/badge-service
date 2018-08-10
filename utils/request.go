@@ -14,8 +14,8 @@ var client = &http.Client{
 	Timeout: time.Second * 6,
 }
 
-// MaxParallelError is error msg of request hit MaxParallel
-var MaxParallelError = errors.New("request hit MaxParallel")
+// ErrMaxParallel is error msg of request hit MaxParallel
+var ErrMaxParallel = errors.New("request hit MaxParallel")
 
 var pooledCopy = iocopy.DefaultPolledIoCopyFunc
 
@@ -23,7 +23,7 @@ var pooledCopy = iocopy.DefaultPolledIoCopyFunc
 func Get(url string, externalHeader ...map[string]string) ([]byte, error) {
 	// check if request hit MaxParallel
 	if cache.IsBurst(url) {
-		return nil, MaxParallelError
+		return nil, ErrMaxParallel
 	}
 	defer cache.Release(url)
 
@@ -50,10 +50,11 @@ func Get(url string, externalHeader ...map[string]string) ([]byte, error) {
 	return bf.Bytes(), nil
 }
 
+// Post is helper function for making post request
 func Post(url string, body interface{}, externalHeader ...map[string]string) ([]byte, error) {
 	// check if request hit MaxParallel
 	if cache.IsBurst(url) {
-		return nil, MaxParallelError
+		return nil, ErrMaxParallel
 	}
 	defer cache.Release(url)
 
