@@ -1,0 +1,10 @@
+{
+  "name": "badge-service",
+  "alias": [
+    "badge.zcong.moe"
+  ],
+  "env": {
+    "GIN_MODE": "release",
+    "GITHUB_TOKEN": "@githubtoken"
+  }
+}
