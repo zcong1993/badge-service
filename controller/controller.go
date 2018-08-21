@@ -19,9 +19,16 @@ const DEFULT_CACHE_AGE = time.Second * 30
 func MakeController(apiFunc adapter.ApiFunc, t string, l int, args ...string) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		queryStyle := c.Query("style")
-		style := badge.DEFAULT
-		if queryStyle == "flat" {
+		var style int
+		switch queryStyle {
+		case "flat":
 			style = badge.FLAT
+			break
+		case "for-the-badge":
+			style = badge.FOR_THE_BADGE
+			break
+		default:
+			style = badge.DEFAULT
 		}
 		var q []string
 		for _, arg := range args {
