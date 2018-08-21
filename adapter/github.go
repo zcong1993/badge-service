@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"github.com/dustin/go-humanize"
 	"github.com/tidwall/gjson"
+	"github.com/zcong1993/badge-service/cache"
 	"github.com/zcong1993/badge-service/utils"
 	"os"
+	"time"
 )
 
 // GITHUB_TOKEN is our github api token cause v4 need it
@@ -28,6 +30,11 @@ func init() {
 }
 
 func graphqlQuery(q string) ([]byte, error) {
+	cacheKey := "github-cache-key-" + q
+	str := cache.GetString(cacheKey)
+	if str != "" {
+		return []byte(str), nil
+	}
 	query := map[string]string{
 		"query": q,
 	}
@@ -41,7 +48,7 @@ func graphqlQuery(q string) ([]byte, error) {
 }
 
 func getInfo(tp, user, repo string) (string, error) {
-	resp, err := graphqlQuery(fmt.Sprintf(`
+	q := fmt.Sprintf(`
     query {
       repository(owner:"%s", name:"%s") {
         releases(last: 1) {
@@ -65,7 +72,8 @@ func getInfo(tp, user, repo string) (string, error) {
 		}
       }
     }
-`, user, repo))
+`, user, repo)
+	resp, err := graphqlQuery(q)
 
 	if err != nil {
 		return "0", err
@@ -75,8 +83,10 @@ func getInfo(tp, user, repo string) (string, error) {
 	if errs != "" {
 		return "0", errors.New(errs)
 	}
-
 	tag := "unknown"
+
+	cacheKey := "github-cache-key-" + q
+	cache.SetCache(cacheKey, string(resp), time.Hour)
 
 	switch tp {
 	case "release":
@@ -91,7 +101,7 @@ func getInfo(tp, user, repo string) (string, error) {
 }
 
 func getCount(tp, user, repo string) (string, error) {
-	resp, err := graphqlQuery(fmt.Sprintf(`
+	q := fmt.Sprintf(`
     query {
       repository(owner:"%s", name:"%s") {
         stargazers {
@@ -114,7 +124,8 @@ func getCount(tp, user, repo string) (string, error) {
         }
       }
     }
-`, user, repo))
+`, user, repo)
+	resp, err := graphqlQuery(q)
 
 	if err != nil {
 		return "0", err
@@ -124,6 +135,10 @@ func getCount(tp, user, repo string) (string, error) {
 	if errs != "" {
 		return "0", errors.New(errs)
 	}
+
+	cacheKey := "github-cache-key-" + q
+	cache.SetCache(cacheKey, string(resp), time.Hour)
+
 	if tp == "open-issues" {
 		tp = "openIssues"
 	} else if tp == "open-pull-requests" {
@@ -153,7 +168,7 @@ func GithubApi(args ...string) BadgeInput {
 	case "stars", "forks", "watchers", "issues", "open-issues", "open-pull-requests":
 		resp, err := getCount(topic, user, repo)
 		if err != nil {
-			return defaultErrorResp
+			return ErrorInput
 		}
 		return BadgeInput{
 			Subject: topic,
@@ -163,7 +178,7 @@ func GithubApi(args ...string) BadgeInput {
 	case "release", "tag", "license":
 		resp, err := getInfo(topic, user, repo)
 		if err != nil {
-			return defaultErrorResp
+			return ErrorInput
 		}
 		return BadgeInput{
 			Subject: topic,

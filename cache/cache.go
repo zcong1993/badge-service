@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-var em = expire.NewStringExpireMap(time.Minute)
+var em = expire.NewStringExpireMap(time.Hour)
 
 // GetString get string cache by key
 func GetString(key string) string {
