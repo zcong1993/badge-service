@@ -13,7 +13,6 @@ func GetString(key string) string {
 	if str == nil {
 		return ""
 	}
-	println("hint cache " + key)
 	return *str
 }
 
