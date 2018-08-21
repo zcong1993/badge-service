@@ -28,6 +28,7 @@ func main() {
 	r.GET("/opencollective/:topic/*rest", controller.MakeController(adapter.OpencollectiveApi, "opencollective", 1, "topic"))
 	r.GET("/packagephobia/:topic/*rest", controller.MakeController(adapter.PackagephobiaApi, "packagephobia", 2, "topic"))
 	r.GET("/gem/:topic/*rest", controller.MakeController(adapter.GemApi, "gem", 2, "topic"))
+	r.GET("/badge/*rest", controller.MakeController(adapter.BadgeApi, "badge", 3))
 
 	r.Run(":" + utils.StringOrDefault(os.Getenv("PORT"), "8080"))
 }
